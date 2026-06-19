@@ -1,0 +1,866 @@
+/* ===== Reset & Base ===== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  background: #0a0a1a;
+  color: #e0e0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* ===== Animated Starfield ===== */
+.stars, .twinkling {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.stars {
+  background:
+    radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 25% 35%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 40% 10%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 55% 45%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 65% 20%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 75% 55%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 85% 30%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 15% 60%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 30% 75%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 50% 70%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 60% 85%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 70% 65%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 80% 80%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 90% 50%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 20% 90%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 45% 55%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 95% 12%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 5% 40%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(2px 2px at 35% 22%, rgba(255,255,255,0.8), transparent),
+    radial-gradient(2px 2px at 72% 42%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(2px 2px at 88% 68%, rgba(255,255,255,0.6), transparent);
+  animation: drift 90s linear infinite;
+}
+
+.twinkling {
+  background:
+    radial-gradient(1px 1px at 18% 8%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 33% 28%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 53% 60%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 68% 18%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 82% 38%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 12% 55%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 42% 85%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 58% 75%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 78% 52%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 92% 28%, rgba(255,255,255,0.3), transparent);
+  animation: drift 120s linear infinite reverse, twinkle 4s ease-in-out infinite;
+}
+
+@keyframes drift {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-100px); }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 1; }
+}
+
+/* ===== Character Select Screen ===== */
+.character-select {
+  gap: 48px;
+  padding: 40px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-align: center;
+  background: linear-gradient(135deg, #ff6fd8, #6e8efb, #00e5ff);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s ease-in-out infinite;
+  text-shadow: none;
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+/* ===== Characters Row ===== */
+.characters {
+  display: flex;
+  gap: 48px;
+}
+
+.character {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  padding: 20px;
+  border-radius: 16px;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.25s ease;
+}
+
+.character:hover {
+  transform: translateY(-6px) scale(1.05);
+}
+
+.character.selected {
+  transform: translateY(-4px) scale(1.08);
+}
+
+/* ===== Character Images ===== */
+.char-img-wrap {
+  width: 160px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: filter 0.3s ease;
+}
+
+.char-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 16px;
+  border: 3px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.character:hover .char-img-wrap::after,
+.character.selected .char-img-wrap::after {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.char-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+  /* the originals are already cut out — just a subtle glow underneath */
+  filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.15));
+  transition: filter 0.3s ease;
+}
+
+.character:hover .char-img,
+.character.selected .char-img {
+  filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.35)) brightness(1.1);
+}
+
+/* Character-specific tinted glows on hover/select */
+.character[data-character="explorer"]:hover .char-img,
+.character[data-character="explorer"].selected .char-img {
+  filter: drop-shadow(0 0 36px rgba(68, 221, 136, 0.6)) brightness(1.1);
+}
+
+.character[data-character="scout"]:hover .char-img,
+.character[data-character="scout"].selected .char-img {
+  filter: drop-shadow(0 0 36px rgba(255, 179, 71, 0.6)) brightness(1.1);
+}
+
+.character[data-character="pilot"]:hover .char-img,
+.character[data-character="pilot"].selected .char-img {
+  filter: drop-shadow(0 0 36px rgba(0, 229, 255, 0.6)) brightness(1.1);
+}
+
+/* ===== Character Names ===== */
+.char-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #c8c8e0;
+  transition: color 0.3s ease;
+}
+
+.character:nth-child(1):hover .char-name,
+.character:nth-child(1).selected .char-name {
+  color: #ffb347;
+}
+
+.character:nth-child(2):hover .char-name,
+.character:nth-child(2).selected .char-name {
+  color: #00e5ff;
+}
+
+.character:nth-child(3):hover .char-name,
+.character:nth-child(3).selected .char-name {
+  color: #ff6fd8;
+}
+
+/* ===== Start Button ===== */
+.start-button {
+  padding: 16px 64px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  background: #2a2a4a;
+  color: #7777aa;
+}
+
+.start-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.start-button:not(:disabled) {
+  background: linear-gradient(135deg, #ff6fd8, #6e8efb, #00e5ff);
+  background-size: 200% 200%;
+  color: #fff;
+  box-shadow: 0 0 30px rgba(110, 142, 251, 0.4);
+  animation: shimmer 3s ease-in-out infinite;
+  cursor: pointer;
+}
+
+.start-button:not(:disabled):hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 50px rgba(110, 142, 251, 0.6);
+}
+
+.start-button:not(:disabled):active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease;
+}
+
+/* ===== Screen Visibility ===== */
+.screen {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.4s ease;
+}
+
+.screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.screen.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ===== Level Select Screen ===== */
+.level-select {
+  gap: 48px;
+  padding: 40px;
+}
+
+.levels {
+  display: flex;
+  gap: 48px;
+}
+
+.level {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  padding: 20px;
+  border-radius: 16px;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.level:hover {
+  transform: translateY(-6px) scale(1.05);
+}
+
+.level.selected {
+  transform: translateY(-4px) scale(1.08);
+}
+
+/* ===== Planet Visuals ===== */
+.level-planet {
+  border-radius: 50%;
+  position: relative;
+  transition: box-shadow 0.3s ease;
+}
+
+.level-planet::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.level:hover .level-planet::after,
+.level.selected .level-planet::after {
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Planet 1 — Earth-like (blue/green) */
+.planet-1 {
+  width: 130px;
+  height: 130px;
+  background:
+    radial-gradient(circle at 30% 35%, #44dd88, #2277aa 55%, #0a2a4a);
+  box-shadow:
+    0 0 40px rgba(68, 221, 136, 0.2),
+    inset 0 0 30px rgba(0,0,0,0.3);
+}
+.level:hover .planet-1,
+.level.selected .planet-1 {
+  box-shadow:
+    0 0 60px rgba(68, 221, 136, 0.45),
+    inset 0 0 30px rgba(0,0,0,0.3);
+}
+
+/* Planet 2 — Desert/red (Mars-like) */
+.planet-2 {
+  width: 110px;
+  height: 110px;
+  background:
+    radial-gradient(circle at 35% 30%, #ff7744, #cc3311 55%, #3a0a02);
+  box-shadow:
+    0 0 40px rgba(255, 119, 68, 0.2),
+    inset 0 0 30px rgba(0,0,0,0.3);
+}
+.level:hover .planet-2,
+.level.selected .planet-2 {
+  box-shadow:
+    0 0 60px rgba(255, 119, 68, 0.45),
+    inset 0 0 30px rgba(0,0,0,0.3);
+}
+
+/* Planet 3 — Ice giant (blue/purple) */
+.planet-3 {
+  width: 140px;
+  height: 140px;
+  background:
+    radial-gradient(circle at 40% 32%, #bb88ff, #5533cc 55%, #190838);
+  box-shadow:
+    0 0 40px rgba(187, 136, 255, 0.2),
+    inset 0 0 30px rgba(0,0,0,0.3);
+}
+.level:hover .planet-3,
+.level.selected .planet-3 {
+  box-shadow:
+    0 0 60px rgba(187, 136, 255, 0.45),
+    inset 0 0 30px rgba(0,0,0,0.3);
+}
+
+/* ===== Level Names ===== */
+.level-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #c8c8e0;
+  transition: color 0.3s ease;
+}
+
+.level:nth-child(1):hover .level-name,
+.level:nth-child(1).selected .level-name {
+  color: #44dd88;
+}
+
+.level:nth-child(2):hover .level-name,
+.level:nth-child(2).selected .level-name {
+  color: #ff7744;
+}
+
+.level:nth-child(3):hover .level-name,
+.level:nth-child(3).selected .level-name {
+  color: #bb88ff;
+}
+
+/* ===== Back Button ===== */
+.back-button {
+  padding: 12px 40px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  cursor: pointer;
+  background: transparent;
+  color: #aaaacc;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-2px);
+}
+
+.back-button:active {
+  transform: translateY(0);
+}
+
+/* ===== Gameplay Screen ===== */
+.game-screen {
+  /* override centering — HUD + game area + leave button */
+  justify-content: flex-start;
+  padding-top: 12px;
+  gap: 0;
+  background: url('images/starfield-bg.jpg') center center / cover no-repeat;
+}
+
+/* ----- HUD (score + timer) ----- */
+.game-hud {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  padding: 14px 0 8px;
+  z-index: 2;
+}
+
+.hud-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.hud-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: #8888aa;
+  text-transform: uppercase;
+}
+
+.hud-value {
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+#score-display {
+  /* override gradient-from-parent — plain white, child spans handle colour */
+  -webkit-text-fill-color: #e0e0f0;
+  color: #e0e0f0;
+  animation: none;
+}
+
+#score-num {
+  background: linear-gradient(135deg, #ff6fd8, #6e8efb);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.score-of {
+  color: #5555aa;
+  font-weight: 400;
+}
+
+#score-target {
+  color: #8888aa;
+  font-weight: 300;
+  font-size: 1.6rem;
+}
+
+@media (max-width: 600px) {
+  .hud-value { font-size: 1.8rem; }
+  #score-target { font-size: 1.2rem; }
+}
+
+/* Win pulse — entire HUD score pulses gold when target is hit */
+#score-display.win-pulse {
+  animation: win-glow 0.6s ease-in-out 3;
+}
+
+@keyframes win-glow {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 transparent); }
+  50%      { transform: scale(1.15); filter: drop-shadow(0 0 18px #ffb347); }
+}
+
+#timer-display {
+  color: #00e5ff;
+  transition: color 0.5s ease;
+}
+
+#timer-display.warning {
+  color: #ff7744;
+}
+
+#timer-display.danger {
+  color: #ff3344;
+  animation: timer-pulse 0.5s ease-in-out infinite;
+}
+
+@keyframes timer-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+
+/* ----- Game area (targets appear here) ----- */
+.game-area {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* ----- Targets ----- */
+.target {
+  position: absolute;
+  border-radius: 50%;
+  cursor: pointer;
+  animation: target-pop-in 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: center center;
+  z-index: 2;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+@keyframes target-pop-in {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.target.fading {
+  animation: target-fade-out 0.25s ease forwards;
+}
+
+@keyframes target-fade-out {
+  from { transform: scale(1); opacity: 1; }
+  to   { transform: scale(0.5); opacity: 0; }
+}
+
+/* Target size by level */
+.level-1-target {
+  width: 64px;
+  height: 64px;
+}
+
+.level-2-target {
+  width: 52px;
+  height: 52px;
+}
+
+.level-3-target {
+  width: 44px;
+  height: 44px;
+}
+
+/* Target colours cycle for variety */
+.target-color-0 {
+  background: radial-gradient(circle at 35% 35%, #ff6fd8, #a81890);
+  box-shadow: 0 0 24px rgba(255, 111, 216, 0.6);
+}
+
+.target-color-1 {
+  background: radial-gradient(circle at 35% 35%, #00e5ff, #007c91);
+  box-shadow: 0 0 24px rgba(0, 229, 255, 0.6);
+}
+
+.target-color-2 {
+  background: radial-gradient(circle at 35% 35%, #ffb347, #e66a0a);
+  box-shadow: 0 0 24px rgba(255, 179, 71, 0.6);
+}
+
+.target-color-3 {
+  background: radial-gradient(circle at 35% 35%, #44dd88, #2277aa);
+  box-shadow: 0 0 24px rgba(68, 221, 136, 0.6);
+}
+
+.target:hover {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
+/* ----- Burst / sparkle FX ----- */
+.burst {
+  position: absolute;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.burst-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  animation: burst-expand 0.5s ease-out forwards;
+}
+
+@keyframes burst-expand {
+  0%   { width: 0; height: 0; opacity: 1; margin-left: 0; margin-top: 0; }
+  100% { width: 80px; height: 80px; opacity: 0; margin-left: -40px; margin-top: -40px; }
+}
+
+.burst-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  animation: particle-fly 0.45s ease-out forwards;
+}
+
+@keyframes particle-fly {
+  0%   { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+}
+
+/* ----- Leave Button ----- */
+.leave-button {
+  padding: 10px 32px;
+  margin: 8px 0 16px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50px;
+  cursor: pointer;
+  background: transparent;
+  color: #8888aa;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.leave-button:hover {
+  border-color: rgba(255, 50, 80, 0.6);
+  color: #ff5060;
+  background: rgba(255, 50, 80, 0.08);
+  transform: translateY(-1px);
+}
+
+.leave-button:active {
+  transform: translateY(0);
+}
+
+/* ===== Win Screen ===== */
+.win-screen {
+  gap: 24px;
+  padding: 40px;
+  z-index: 2;
+}
+
+/* Confetti-like floating particles behind the win text */
+.win-confetti {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.win-confetti::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background:
+    /* coloured dots */
+    radial-gradient(3px 3px at 10% 20%, #ff6fd8, transparent),
+    radial-gradient(4px 4px at 22% 65%, #00e5ff, transparent),
+    radial-gradient(3px 3px at 35% 15%, #ffb347, transparent),
+    radial-gradient(5px 5px at 48% 72%, #44dd88, transparent),
+    radial-gradient(3px 3px at 58% 30%, #ff6fd8, transparent),
+    radial-gradient(4px 4px at 68% 78%, #ffb347, transparent),
+    radial-gradient(3px 3px at 72% 12%, #6e8efb, transparent),
+    radial-gradient(5px 5px at 82% 55%, #00e5ff, transparent),
+    radial-gradient(3px 3px at 15% 88%, #44dd88, transparent),
+    radial-gradient(4px 4px at 55% 90%, #ffb347, transparent),
+    radial-gradient(3px 3px at 90% 25%, #ff6fd8, transparent),
+    radial-gradient(4px 4px at 38% 42%, #6e8efb, transparent);
+  animation: confetti-fall 6s linear infinite;
+}
+
+@keyframes confetti-fall {
+  0%   { transform: translateY(-10%); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(10%); opacity: 0; }
+}
+
+.win-title {
+  font-size: 3.2rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-align: center;
+  background: linear-gradient(135deg, #ffb347, #ff6fd8, #44dd88);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 2.5s ease-in-out infinite;
+  position: relative;
+  z-index: 1;
+}
+
+.win-score-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+.win-score-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: #8888aa;
+  text-transform: uppercase;
+}
+
+.win-score-value {
+  font-size: 3.6rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #ff6fd8, #6e8efb);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Shared end-button base */
+.end-btn {
+  padding: 14px 48px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  border-radius: 50px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.win-buttons {
+  display: flex;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.win-again-btn {
+  background: transparent;
+  color: #aaaacc;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.win-again-btn:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.win-next-btn {
+  background: linear-gradient(135deg, #ffb347, #44dd88);
+  color: #0a0a1a;
+}
+
+.win-next-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 30px rgba(68, 221, 136, 0.5);
+}
+
+.win-next-btn:active {
+  transform: scale(0.97);
+}
+
+/* ===== Lose Screen ===== */
+.lose-screen {
+  gap: 20px;
+  padding: 40px;
+  z-index: 2;
+}
+
+.lose-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #7788cc;
+}
+
+.lose-subtitle {
+  font-size: 1.15rem;
+  color: #7788aa;
+  text-align: center;
+  max-width: 360px;
+  line-height: 1.5;
+}
+
+.lose-score-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.lose-score-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: #6666aa;
+  text-transform: uppercase;
+}
+
+.lose-score-value {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #8899cc;
+}
+
+.lose-again-btn {
+  background: linear-gradient(135deg, #6e8efb, #4455aa);
+  color: #e0e0f0;
+  border: none;
+}
+
+.lose-again-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 30px rgba(110, 142, 251, 0.4);
+}
+
+.lose-again-btn:active {
+  transform: scale(0.97);
+}
+
+/* Shared — hide next-level button when on last level */
+#win-next-level.hidden-btn {
+  display: none;
+}

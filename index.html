@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Star Catcher — Choose Your Character</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="stars"></div>
+  <div class="twinkling"></div>
+
+  <!-- ===== Character Select Screen ===== -->
+  <main id="char-screen" class="screen character-select active">
+    <h1 class="title">Choose Your Character</h1>
+
+    <div class="characters">
+      <div class="character" data-character="explorer">
+        <div class="char-img-wrap">
+          <img src="images/explorer.png" alt="Explorer" class="char-img">
+        </div>
+        <span class="char-name">Explorer</span>
+      </div>
+
+      <div class="character" data-character="scout">
+        <div class="char-img-wrap">
+          <img src="images/scout.png" alt="Scout" class="char-img">
+        </div>
+        <span class="char-name">Scout</span>
+      </div>
+
+      <div class="character" data-character="pilot">
+        <div class="char-img-wrap">
+          <img src="images/pilot.png" alt="Pilot" class="char-img">
+        </div>
+        <span class="char-name">Pilot</span>
+      </div>
+    </div>
+
+    <button id="start-btn" class="start-button" disabled>Start Game</button>
+  </main>
+
+  <!-- ===== Level Select Screen ===== -->
+  <main id="level-screen" class="screen level-select hidden">
+    <h1 class="title">Select a Level to Begin</h1>
+
+    <div class="levels">
+      <div class="level" data-level="1">
+        <div class="level-planet planet-1"></div>
+        <span class="level-name">Level 1</span>
+      </div>
+
+      <div class="level" data-level="2">
+        <div class="level-planet planet-2"></div>
+        <span class="level-name">Level 2</span>
+      </div>
+
+      <div class="level" data-level="3">
+        <div class="level-planet planet-3"></div>
+        <span class="level-name">Level 3</span>
+      </div>
+    </div>
+
+    <button id="back-btn" class="back-button">←  Back</button>
+  </main>
+
+  <!-- ===== Gameplay Screen ===== -->
+  <main id="game-screen" class="screen game-screen hidden">
+    <div class="game-hud">
+      <div class="hud-item">
+        <span class="hud-label">SCORE</span>
+        <span id="score-display" class="hud-value"><span id="score-num">0</span><span class="score-of"> / </span><span id="score-target">100</span></span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">TIME</span>
+        <span id="timer-display" class="hud-value">30</span>
+      </div>
+    </div>
+
+    <div id="game-area" class="game-area"></div>
+
+    <button id="leave-btn" class="leave-button">Leave Game</button>
+  </main>
+
+  <!-- ===== Win Screen ===== -->
+  <main id="win-screen" class="screen win-screen hidden">
+    <div class="win-confetti"></div>
+    <h1 class="win-title">Level Complete!</h1>
+    <div class="win-score-wrap">
+      <span class="win-score-label">Final Score</span>
+      <span id="win-score" class="win-score-value">100</span>
+    </div>
+    <div class="win-buttons">
+      <button id="win-play-again" class="end-btn win-again-btn">Play Again</button>
+      <button id="win-next-level" class="end-btn win-next-btn">Next Level →</button>
+    </div>
+  </main>
+
+  <!-- ===== Lose Screen ===== -->
+  <main id="lose-screen" class="screen lose-screen hidden">
+    <h1 class="lose-title">Out of Time</h1>
+    <p class="lose-subtitle">Don't give up — you're getting closer!</p>
+    <div class="lose-score-wrap">
+      <span class="lose-score-label">Your Score</span>
+      <span id="lose-score" class="lose-score-value">40</span>
+    </div>
+    <button id="lose-play-again" class="end-btn lose-again-btn">Try Again</button>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
