@@ -216,6 +216,70 @@ body {
   color: #ff6fd8;
 }
 
+/* ===== Captain Vega NPC ===== */
+.npc-area {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+/* Speech bubble */
+.npc-bubble {
+  position: relative;
+  background: rgba(30, 30, 60, 0.85);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 14px 18px;
+  max-width: 360px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Little tail pointing at the NPC */
+.npc-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: 12px;
+  right: -10px;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 10px solid rgba(30, 30, 60, 0.85);
+}
+
+.npc-bubble p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #d0d0e8;
+  text-align: left;
+}
+
+/* NPC sprite */
+.npc-sprite {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.npc-img {
+  width: 80px;
+  height: 100px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 12px rgba(100, 140, 255, 0.3));
+}
+
+.npc-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #8899cc;
+}
+
 /* ===== Start Button ===== */
 .start-button {
   padding: 16px 64px;

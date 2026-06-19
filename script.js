@@ -35,6 +35,9 @@
   var muteBtn   = document.getElementById('mute-btn');
   var isMuted   = false;
 
+  // ----- NPC dialogue -----
+  var npcDialogue = document.getElementById('npc-dialogue');
+
   // ----- State -----
   var selectedCharacter = null;
   var selectedLevel     = null;
@@ -60,6 +63,21 @@
 
   function rand(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  // =========================================================================
+  // NPC DIALOGUE (localStorage-based)
+  // =========================================================================
+  function loadDialogue() {
+    var lastResult = localStorage.getItem('starCatcher_lastResult');
+    if (lastResult === 'win') {
+      npcDialogue.textContent = 'Back again, champion? Let\'s see if you can beat your own score.';
+    } else if (lastResult === 'lose') {
+      npcDialogue.textContent = 'Do not worry about last time. Everyone has a rough round. Try again.';
+    } else {
+      // Not played yet, or first time
+      npcDialogue.textContent = 'New around here? Click fast and you will do fine.';
+    }
   }
 
   // =========================================================================
@@ -314,6 +332,9 @@
       winNextLevel.classList.add('hidden-btn');
     }
 
+    // Remember result for NPC dialogue
+    localStorage.setItem('starCatcher_lastResult', 'win');
+
     swapScreen(gameScreen, winScreen);
   }
 
@@ -326,6 +347,9 @@
 
     // Show lose screen with final score
     loseScoreEl.textContent = score;
+
+    // Remember result for NPC dialogue
+    localStorage.setItem('starCatcher_lastResult', 'lose');
 
     swapScreen(gameScreen, loseScreen);
   }
@@ -457,5 +481,8 @@
   }
   document.addEventListener('click', tryStartMusic);
   document.addEventListener('keydown', tryStartMusic);
+
+  // Load NPC dialogue on page start
+  loadDialogue();
 
 })();
