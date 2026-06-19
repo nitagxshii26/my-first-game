@@ -29,6 +29,12 @@
   // ----- Game area -----
   var gameArea = document.getElementById('game-area');
 
+  // ----- Audio -----
+  var bgMusic   = document.getElementById('bg-music');
+  var popSfx    = document.getElementById('pop-sfx');
+  var muteBtn   = document.getElementById('mute-btn');
+  var isMuted   = false;
+
   // ----- State -----
   var selectedCharacter = null;
   var selectedLevel     = null;
@@ -54,6 +60,33 @@
 
   function rand(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  // =========================================================================
+  // AUDIO HELPERS
+  // =========================================================================
+  function playPop() {
+    if (isMuted) return;
+    // Reset and play the short pop sound effect
+    popSfx.currentTime = 0;
+    popSfx.play().catch(function () { /* ignore autoplay blocks */ });
+  }
+
+  function updateMuteUI() {
+    if (isMuted) {
+      muteBtn.textContent = '\uD83D\uDD07';  // muted speaker
+      muteBtn.classList.add('muted');
+      bgMusic.pause();
+    } else {
+      muteBtn.textContent = '\uD83D\uDD0A';  // speaker with sound waves
+      muteBtn.classList.remove('muted');
+      bgMusic.play().catch(function () { /* ignore autoplay blocks */ });
+    }
+  }
+
+  function startMusic() {
+    if (isMuted) return;
+    bgMusic.play().catch(function () { /* ignore */ });
   }
 
   function spawnBurst(x, y) {
@@ -221,6 +254,7 @@
     score += 10;
     scoreNumEl.textContent = score;
     bumpScoreDisplay();
+    playPop();                     // sound effect
 
     // Check win condition
     if (score >= TARGET_SCORE) {
@@ -400,5 +434,28 @@
     swapScreen(loseScreen, gameScreen);
     startGame();
   });
+
+  // =========================================================================
+  // AUDIO CONTROLS
+  // =========================================================================
+
+  // Mute toggle button
+  muteBtn.addEventListener('click', function () {
+    isMuted = !isMuted;
+    updateMuteUI();
+  });
+
+  // Start background music on first user interaction (browser autoplay policy)
+  var musicStarted = false;
+  function tryStartMusic() {
+    if (musicStarted) return;
+    musicStarted = true;
+    startMusic();
+    // Remove the listener after first trigger
+    document.removeEventListener('click', tryStartMusic);
+    document.removeEventListener('keydown', tryStartMusic);
+  }
+  document.addEventListener('click', tryStartMusic);
+  document.addEventListener('keydown', tryStartMusic);
 
 })();
